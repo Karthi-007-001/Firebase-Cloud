@@ -1,0 +1,127 @@
+<html>
+    
+    <head>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  background: #555;
+}
+
+.content {
+  max-width: 500px;
+  margin: auto;
+  background: greenyellow;
+  padding: 10px;
+  text-align:center;
+}
+</style>
+    </head>
+    <body style="background-color:powderblue;">
+        <center><h1> Insert Update Delete Firebase</h1></center>
+        
+            <div class="content">
+
+        Id<input id="Idbox", type="text"></input><br><br>
+        Name<input id="Namebox", type="text"></input><br><br>
+        Job<input id="Jobbox", type="text"></input><br><br>
+        Gender<input id="Genbox", type="text"></input><br><br>
+        Salary<input id="Salarybox", type="text"></input><br><br>
+        Email<input id="Emailbox", type="text"></input><br><br>
+        
+
+        <br><br>
+    <button  id="insert">Insert</button>
+    <button  id="select">Select</button>
+    <button  id="update">Update</button>
+    <button  id="delete">Delete</button>
+</div>
+</center>
+    <!--Firebase Libraries-->
+    <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-database.js"></script> 
+
+    <script id="MainScript">
+       // Your web app's Firebase configuration
+        var firebaseConfig = {
+          apiKey: "AIzaSyCrTrzFgQRzO0V2ebCyJ79pbRfpkLhiaIE",
+          authDomain: "employee-cb189.firebaseapp.com",
+          projectId: "employee-cb189",
+          storageBucket: "employee-cb189.appspot.com",
+          messagingSenderId: "617158117361",
+          appId: "1:617158117361:web:e09d644c86b7fa5b2ae650"
+        };
+      
+  // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+
+    var idV,nameV,jobV,genV,salaryV,emailV;
+    function Ready()
+    {
+            idV=document.getElementById('Idbox').value;
+            nameV=document.getElementById('Namebox').value;
+            jobV=document.getElementById('Jobbox').value;
+            genV=document.getElementById('Genbox').value;
+            salaryV=document.getElementById('Salarybox').value;
+            emailV=document.getElementById('Emailbox').value;
+
+
+     }
+//insert//
+     document.getElementById('insert').onclick=function()
+     {
+        Ready();
+        firebase.database().ref('employee/'+idV).set({
+            Name:nameV,
+            Job:jobV,
+            gender:genV,
+            salary:salaryV,
+            email:emailV
+        });
+        alert("insert successfully");
+     }
+     //select//
+     document.getElementById('select').onclick=function()
+     {
+        Ready();
+        firebase.database().ref('employee/'+idV).on('value',function(snapshot){
+            document.getElementById('Namebox').value=snapshot.val().Name;
+            document.getElementById('Jobbox').value=snapshot.val().Job;
+            document.getElementById('Genbox').value=snapshot.val().gender;
+            document.getElementById('Salarybox').value=snapshot.val().salary;
+            document.getElementById('Emailbox').value=snapshot.val().email;
+
+          
+        });
+    }
+        //update//
+        document.getElementById('update').onclick=function()
+     {
+        Ready();
+        firebase.database().ref('employee/'+idV).update({
+            Name:nameV,
+            Job:jobV,
+            gender:genV,
+            salary:salaryV,
+            email:emailV
+        });
+        alert("update successfully");
+     }
+       //delete//
+       document.getElementById('delete').onclick=function()
+       {
+          Ready();
+          firebase.database().ref('employee/'+idV).remove();
+           
+          alert("delete successfully");
+       }
+
+        
+     
+</script>
+
+
+    </body>
+</html>
